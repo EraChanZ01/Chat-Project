@@ -1,0 +1,50 @@
+body {
+    margin: 0px;
+}
+
+.Home-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('/images/fon.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .Modal-LogOn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        padding: 30px;
+        width: 37vw;
+        height: 40vh;
+        background: rgba(253, 253, 253, 0.89);
+        border-radius: 30px;
+        label {
+            p{
+                margin: 16px 0px 3px 10px;
+                font-size: 17px;
+                font-weight: 600;
+            }
+            input {
+                height: 45px;
+                width: 30em;
+                border: none;
+                border-radius: 5px;
+                background-color: rgb(214, 214, 214);
+            }
+        }
+        .Button-logOn{
+            width: 25em;
+            height: 45px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(1, 196, 17, 0.877);
+            color:aliceblue;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+    }
+}
