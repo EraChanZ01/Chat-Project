@@ -1,0 +1,69 @@
+.Chat-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('/images/fon2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .Frame {
+        box-sizing: border-box;
+        display: flex;
+        width: 90%;
+        height: 90%;
+        padding: 50px 30px;
+        background-color: rgba(174, 160, 211, 0.925);
+        border-radius: 30px;
+
+        .Contact-frame {
+            box-sizing: border-box;
+            width: 18%;
+            height: 100%;
+            padding: 15px;
+            border-radius: 10px 0px 0px 10px;
+            background-color: rgba(203, 190, 238, 0.877);
+            overflow: auto;
+
+            .Contact {
+                display: flex;
+                height: 50px;
+                margin-bottom: 12px;
+
+                .Contact-info {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    margin-left: 16px;
+                    font-size: 19px;
+                    font-weight: 700;
+
+                    .lastMessage {
+                        margin: 5px 0px 0px 0px;
+                        font-size: 15px;
+                        color: rgb(97, 97, 97);
+                    }
+                }
+            }
+        }
+
+        .Contact-frame::-webkit-scrollbar {
+            width: 9px;
+            background-color: rgb(242, 232, 255);
+        }
+
+        .Contact-frame::-webkit-scrollbar-thumb {
+            background-color: rgb(190, 140, 255);
+            border-radius: 10px;
+        }
+
+        .chat {
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(228, 218, 255, 0.877);
+            border-radius: 0px 10px 10px 0px;
+        }
+    }
+}
