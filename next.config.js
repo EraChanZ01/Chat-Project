@@ -4,6 +4,9 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  images: {
+    domains: ['randomuser.me'],
+  },
   webpack: (config, options) => {
     config.module.rules.push(
       {
