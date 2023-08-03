@@ -1,9 +1,12 @@
 const express = require('express')
 const userController = require('../controller/userController')
 const hashPass = require('../middlewares/hashPassword')
+const createSession = require('../middlewares/createSession')
 
-const userRouter = express.Router()
+const authRouter = express.Router()
 
-userRouter.post("/", hashPass.hashPassword, userController.register)
+authRouter.post("/register", hashPass.hashPassword, userController.register)
+authRouter.post("/login", userController.login)
+authRouter.get("/",createSession.verefyToken, createSession.checkAuth)
 
-module.exports = userRouter
+module.exports = authRouter

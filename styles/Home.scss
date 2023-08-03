@@ -11,17 +11,17 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 
-    .Modal-LogOn {
+    .Modal-Auth {
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
         align-items: center;
         padding: 30px;
         width: 37vw;
-        height: 40vh;
+        min-height: 40vh;
         background: rgba(253, 253, 253, 0.89);
         border-radius: 30px;
         label {
+            margin-top: 10px;
             p{
                 margin: 16px 0px 3px 10px;
                 font-size: 17px;
@@ -35,7 +35,8 @@ body {
                 background-color: rgb(214, 214, 214);
             }
         }
-        .Button-logOn{
+        .Button-Auth{
+            margin-top: 80px;
             width: 25em;
             height: 45px;
             border: none;
@@ -44,6 +45,10 @@ body {
             color:aliceblue;
             font-size: 16px;
             font-weight: 600;
+        }
+        .auxiliary-Button{
+            margin-top: 30px;
+            font-weight: 800;
         }
 
     }

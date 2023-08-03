@@ -5,7 +5,9 @@ import "../styles/Home.scss"
 import "../styles/Chat.scss"
 
 
+
 const App = ({ Component, pageProps }) => {
+    
     return (
         <>
             <Provider store={store}>

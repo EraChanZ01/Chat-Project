@@ -1,30 +1,17 @@
 const jwt = require('jsonwebtoken')
 const { promisify } = require('util')
 const config = require('../../config')
+const User = require('../models/Users')
+
+
 const jwtSign = promisify(jwt.sign)
-
-
 
 module.exports.checkAuth = async (req, res, next) => {
     try {
-        const accessToken = req.headers.authorization;
-        if (!accessToken) {
-            throw 'err'
-        }
-        const tokenData = await jwt.verify(accessToken, config.token.SECRET)
-        const userFind = await db.User.findOne({
-            where: { id: tokenData.id },
-            include: [
-                {
-                    model: db.UserFavoriteProducts,
-                    as: "favoriteProduct",
-
-                }
-            ]
-        })
+        const userFind = await User.findOne({ _id: req.tokenData._id })
         res.status(200).send({ data: userFind })
     } catch (e) {
-        next(new TokenError('token error'))
+        next('token error')
     }
 }
 
@@ -48,9 +35,9 @@ module.exports.createdToken = async (
         password,
     }) => await jwtSign(
         {
-            _id,
-            phoneNumber,
-            password
+            _id: _id,
+            phoneNumber: phoneNumber,
+            password: password
         },
         config.token.SECRET,
         {

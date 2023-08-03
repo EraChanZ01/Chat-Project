@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as restController from "../../pages/api"
+import * as restController from "../../pages/api/rest"
 
 
 const SLICE_NAME = 'userSlice'
@@ -11,11 +11,25 @@ const reducers = {
 
 }
 
+export const checkAuth = createAsyncThunk(
+    `${SLICE_NAME}/checkAuth`,
+    async (payload, { rejectWithValue }) => {
+        try {
+            const { data } = await restController.checkAuth()
+            return data
+        } catch (e) {
+            return rejectWithValue({
+                message: "Failed to fetch"
+            })
+        }
+    }
+)
+
 export const registerUser = createAsyncThunk(
     `${SLICE_NAME}/registerUser`,
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await restController.registerUser(payload)
+            const { data } = await restController.registerUser(payload)
             return data
         } catch (e) {
             return rejectWithValue({
@@ -49,6 +63,32 @@ const extraReducers = (builder) => {
 
     })
     builder.addCase(registerUser.rejected, (state, { payload }) => {
+        state.isLoading = false
+        state.error = payload
+    })
+    builder.addCase(loginUser.pending, (state) => {
+        state.isLoading = true
+    })
+    builder.addCase(loginUser.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.data = payload.data
+        state.error = null
+
+    })
+    builder.addCase(loginUser.rejected, (state, { payload }) => {
+        state.isLoading = false
+        state.error = payload
+    })
+    builder.addCase(checkAuth.pending, (state) => {
+        state.isLoading = true
+    })
+    builder.addCase(checkAuth.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.data = payload.data
+        state.error = null
+
+    })
+    builder.addCase(checkAuth.rejected, (state, { payload }) => {
         state.isLoading = false
         state.error = payload
     })
