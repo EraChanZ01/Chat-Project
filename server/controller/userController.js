@@ -27,8 +27,29 @@ module.exports.login = async (req, res, next) => {
 }
 module.exports.getAllUser = async (req, res, next) => {
     try {
-        const users = await User.find()
-        res.status(200).send({ data: users })
+        const { startNumber } = req.params
+        const regex = new RegExp(`^${startNumber}`);
+        const user = await User.findOne({ phoneNumber: "0660731775" })
+        const users = await User.find({ _id: { $in: user.friends }, phoneNumber: { $regex: regex } })
+        res.status(200).send(users)
+    } catch (e) {
+        next(e)
+    }
+}
+module.exports.addFriend = async (req, res, next) => {
+    try {
+        const { addNumber, userNumber } = req.body
+        const user = await User.findOne({ phoneNumber: userNumber })
+        const friend = await User.findOne({ phoneNumber: addNumber })
+        if (!friend) {
+            return
+        }
+        await User.updateOne(
+            { _id: user._id },
+            { $push: { friends: friend._id } }
+        )
+        res.status(200).send({ _id: friend._id })
+
     } catch (e) {
         next(e)
     }

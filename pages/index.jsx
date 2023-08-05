@@ -7,7 +7,12 @@ import ModalAuth from '../components/modalAuth'
 const Home = ({ checkAuth, registerUser, loginUser, data }) => {
     const router = useRouter();
     useEffect(() => {
-        checkAuth().then(() => router.push('/chat'))
+        checkAuth()
+            .then(data => {
+                if (data.meta.requestStatus === 'fulfilled') {
+                    router.push('/chat')
+                }
+            })
     }, [])
     const [modal, setModal] = useState(false)
     const [user, setUser] = useState({})
@@ -22,7 +27,11 @@ const Home = ({ checkAuth, registerUser, loginUser, data }) => {
 
             }
         } else {
-            loginUser(user)
+            loginUser(user).then((data) => {
+                if (data.meta.requestStatus === 'fulfilled') {
+                    router.push('/chat')
+                }
+            })
         }
     }
     const handleChange = ({ target }) => {
