@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const chatSchema = new Schema({
-    participants: [{ id: mongoose.ObjectId }]
+    participants: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
 const Chat = mongoose.model('Chat', chatSchema)
 
-export default Chat
+module.exports = Chat

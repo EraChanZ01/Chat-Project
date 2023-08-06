@@ -1,4 +1,6 @@
 const User = require('../models/Users')
+const Chat = require('../models/Chats')
+
 const bcrypt = require('bcrypt');
 const { createdToken } = require('../middlewares/createSession')
 
@@ -36,11 +38,12 @@ module.exports.getAllUser = async (req, res, next) => {
         next(e)
     }
 }
+
 module.exports.addFriend = async (req, res, next) => {
     try {
         const { addNumber, userNumber } = req.body
-        const user = await User.findOne({ phoneNumber: userNumber })
-        const friend = await User.findOne({ phoneNumber: addNumber })
+        const user = await User.findOne({ phoneNumber: userNumber }).select('-password')
+        const friend = await User.findOne({ phoneNumber: addNumber }).select('-password')
         if (!friend) {
             return
         }
@@ -48,7 +51,8 @@ module.exports.addFriend = async (req, res, next) => {
             { _id: user._id },
             { $push: { friends: friend._id } }
         )
-        res.status(200).send({ _id: friend._id })
+        const chat = await Chat.create({ participants: [user._id, friend._id] })
+        res.status(200).send(friend)
 
     } catch (e) {
         next(e)

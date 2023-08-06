@@ -52,20 +52,7 @@ export const loginUser = createAsyncThunk(
         }
     }
 )
-export const addFriend = createAsyncThunk(
-    `${SLICE_NAME}/addFriend`,
-    async (payload, { rejectWithValue }) => {
-        try {
-            console.log(payload)
-            const { data } = await restController.addFriend(payload)
-            return data
-        } catch (e) {
-            return rejectWithValue({
-                message: "Failed to fetch"
-            })
-        }
-    }
-)
+
 
 
 const extraReducers = (builder) => {
@@ -107,11 +94,6 @@ const extraReducers = (builder) => {
     builder.addCase(checkAuth.rejected, (state, { payload }) => {
         state.isLoading = false
         state.error = payload
-    })
-    builder.addCase(addFriend.fulfilled, (state, { payload }) => {
-        state.isLoading = false
-        state.data = payload
-        state.error = null
     })
 }
 

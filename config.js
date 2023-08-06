@@ -7,7 +7,7 @@ const config = {
         EXPIRES_TIME: 1000,
         SECRET: 'qwerty'
     },
-    baseURL: 'http://localhost:3000/'
+    baseURL: 'http://localhost:3000/api'
     
 }
 

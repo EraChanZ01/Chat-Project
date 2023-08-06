@@ -1,31 +1,22 @@
 import React, { useEffect, useState } from "react"
 import Contact from "../components/contact"
+import { useRouter } from 'next/router';
 import { connect } from "react-redux"
-import { checkAuth, addFriend } from "../redux/slice/userSlice"
-import { getAllUser } from '../redux/slice/contactSlice'
+import { checkAuth } from "../redux/slice/userSlice"
+import { getAllUser, addFriend, getChats } from '../redux/slice/contactSlice'
 import Image from "next/image"
 
-
-/*export const getServerSideProps = async () => {
-
-    const res = await fetch('http://localhost:3000/api/user/getAll')
-    const data = await res.json()
-    console.log(data)
-    if (!data) {
-        return {
-            notFound: true
-        }
-    }
-    return {
-        props: { contact: data }
-    }
-}*/
-
-
-const Chat = ({ contact, checkAuth, getAllUser, contactList, addFriend, data }) => {
+const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) => {
+    const router = useRouter();
     const [regex, setRegex] = useState('')
     useEffect(() => {
-        checkAuth()
+        checkAuth().then(data => {
+            if (data.meta.requestStatus === 'fulfilled') {
+                getChats()
+            } else {
+                router.push('/')
+            }
+        })
     }, [])
     useEffect(() => {
         if (regex.length > 5) {
@@ -51,7 +42,7 @@ const Chat = ({ contact, checkAuth, getAllUser, contactList, addFriend, data }) 
                     </div>
                     <div className="box-contact">
                         {
-                            contactList?.map((user, index) => <Contact key={index} name={user.phoneNumber} picture={user.picture ? user.picture.large : "/images/png-user.png"} lastMessage={user.phoneNumber} />)
+                            chatsView?.map((user, index) => <Contact key={index} name={user.interlocutors.phoneNumber} picture={user.picture ? user.picture.large : "/images/png-user.png"} lastMessage={user.lastMessage.body} />)
                         }
                     </div>
                     <div className="box-setting">
@@ -69,7 +60,8 @@ const Chat = ({ contact, checkAuth, getAllUser, contactList, addFriend, data }) 
 const mapDispatchToProps = (dispatch) => ({
     checkAuth: () => dispatch(checkAuth()),
     getAllUser: (data) => dispatch(getAllUser(data)),
-    addFriend: (data) => dispatch(addFriend(data))
+    addFriend: (data) => dispatch(addFriend(data)),
+    getChats: () => dispatch(getChats())
 })
 const mapStateToProps = (state) => {
     return {

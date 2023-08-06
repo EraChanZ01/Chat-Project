@@ -6,7 +6,8 @@ const SLICE_NAME = 'contactSlice'
 
 const initialState = {
     isLoading: false,
-    contactList: []
+    contactList: [],
+    chatsView: []
 }
 const reducers = {
     addContact: (state, action) => {
@@ -27,10 +28,42 @@ export const getAllUser = createAsyncThunk(
         }
     }
 )
+export const addFriend = createAsyncThunk(
+    `${SLICE_NAME}/addFriend`,
+    async (payload, { rejectWithValue }) => {
+        try {
+            const { data } = await restController.addFriend(payload)
+            return data
+        } catch (e) {
+            return rejectWithValue({
+                message: "Failed to fetch"
+            })
+        }
+    }
+)
+export const getChats = createAsyncThunk(
+    `${SLICE_NAME}/getChats`,
+    async (payload, { rejectWithValue }) => {
+        try {
+            const { data } = await restController.getChats()
+            return data
+        } catch (e) {
+            return rejectWithValue({
+                message: "Failed to fetch"
+            })
+        }
+    }
+)
 
 const extraReducers = (builder) => {
     builder.addCase(getAllUser.fulfilled, (state, { payload }) => {
         state.contactList = [...state.contactList, ...payload]
+    })
+    builder.addCase(addFriend.fulfilled, (state, { payload }) => {
+        state.contactList = [...state.contactList, payload]
+    })
+    builder.addCase(getChats.fulfilled, (state, { payload }) => {
+        state.chatsView = payload
     })
 }
 
