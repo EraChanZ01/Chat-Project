@@ -1,12 +1,14 @@
-const next = require('next')
-const express = require('express')
+const http = require('http')
+const next = require('next');
+const express = require('express');
 const mongoose = require('mongoose');
-const config = require('../config')
-const router = require('./router/router')
-
+const config = require('../config');
+const router = require('./router/router');
+const socketInit = require('./socketInit');
+const PORT = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler();
+const nextApp = next({ dev })
+const handle = nextApp.getRequestHandler();
 
 const startDataBase = async () => {
     console.info('Starting application');
@@ -25,20 +27,27 @@ const startDataBase = async () => {
     }
 }
 
-app.prepare().then(() => {
-    const server = express()
+nextApp.prepare().then(() => {
+    const app = express()
+    const server = http.createServer(app)
 
-    server.use(express.json())
-    server.use('/api', router)
-    server.get('*', (req, res) => {
+    app.use(express.json())
+    app.use('/api', router)
+    app.get('*', (req, res) => {
         return handle(req, res);
     });
     startDataBase()
 
+
+
     server.listen(PORT, () => {
         console.log(`Server started in PORT:${PORT}`)
+        socketInit.createConnection(server)
     })
-})
+
+});
+
+
 
 
 const connectToMongoDb = (uri, options) => {
@@ -59,5 +68,3 @@ const connectToMongoDb = (uri, options) => {
 }
 
 
-
-const PORT = process.env.PORT || 3000

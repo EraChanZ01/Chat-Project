@@ -5,11 +5,15 @@ const userSchema = new Schema({
     name: String,
     phoneNumber: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
         required: true
+    },
+    image: {
+        type: String,
     },
     friends: [{
         type: Schema.Types.ObjectId, ref: 'User'

@@ -1,5 +1,7 @@
-const axios = require('axios')
-const config = require('../../config')
+import io from 'socket.io-client'
+import axios from 'axios'
+import config from '../../config'
+
 
 const instance = axios.create({
     baseURL: config.baseURL

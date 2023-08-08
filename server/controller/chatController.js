@@ -6,12 +6,12 @@ module.exports.getChats = async (req, res, next) => {
         const chats = await Chat.find({ participants: { $in: [req.tokenData._id] } })
             .populate({
                 path: 'participants',
-                select: ['-password','-friends']
+                select: ['-password', '-friends']
             })
         const resData = []
         for (let i = 0; i < chats.length; i++) {
             const sender = chats[i].participants.find(
-                (participant) => participant !== req.tokenData._id
+                (participant) => participant.phoneNumber !== req.tokenData.phoneNumber
             )
             const message = await Message.findOne({ chatId: chats[i]._id })
             resData.push({ ...chats[i]._doc, lastMessage: message, interlocutors: sender })

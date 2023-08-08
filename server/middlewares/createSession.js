@@ -24,7 +24,7 @@ module.exports.verefyToken = async (req, res, next) => {
         req.tokenData = await jwt.verify(accessToken, config.token.SECRET)
         next()
     } catch (e) {
-        next(e)
+        next('token error')
     }
 }
 

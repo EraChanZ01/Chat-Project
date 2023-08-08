@@ -1,31 +1,52 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useLayoutEffect } from "react"
 import Contact from "../components/contact"
+import BlockClientSettings from '../components/blockClientSettings'
+import { chatController } from './api/ws/socketInit';
 import { useRouter } from 'next/router';
 import { connect } from "react-redux"
 import { checkAuth } from "../redux/slice/userSlice"
 import { getAllUser, addFriend, getChats } from '../redux/slice/contactSlice'
 import Image from "next/image"
 
+
 const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) => {
     const router = useRouter();
     const [regex, setRegex] = useState('')
+
+    /*const socketInitializer = async (id) => {
+        await fetch('/api/socket')
+        socket = io()
+
+        socket.on('connect', () => {
+            socket.emit('socketSubscribe', id)
+        })
+    }*/
+
+
     useEffect(() => {
-        checkAuth().then(data => {
-            if (data.meta.requestStatus === 'fulfilled') {
+        checkAuth().then(({ payload, meta }) => {
+            if (meta.requestStatus === 'fulfilled') {
+                chatController.subscribeChat(payload.data._id)
                 getChats()
             } else {
                 router.push('/')
             }
         })
+        return () => {
+            //socket?.emit('socketUnsubscribe', data._id)
+        }
     }, [])
+
     useEffect(() => {
         if (regex.length > 5) {
             getAllUser(regex)
         }
     }, [regex])
+
     const handleChange = ({ target }) => {
         setRegex(target.value)
     }
+
     const handleClick = () => {
         addFriend({ addNumber: regex, userNumber: data.phoneNumber })
     }
@@ -42,12 +63,10 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
                     </div>
                     <div className="box-contact">
                         {
-                            chatsView?.map((user, index) => <Contact key={index} name={user.interlocutors.phoneNumber} picture={user.picture ? user.picture.large : "/images/png-user.png"} lastMessage={user.lastMessage.body} />)
+                            chatsView?.map((user, index) => <Contact key={index} name={user.interlocutors.phoneNumber} picture={user.picture ? user.picture.large : "/images/png-user.png"} lastMessage={user.lastMessage?.body} />)
                         }
                     </div>
-                    <div className="box-setting">
-
-                    </div>
+                    <BlockClientSettings />
                 </div>
                 <div className="chat">
 
@@ -72,6 +91,3 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
 
-
-
-//
