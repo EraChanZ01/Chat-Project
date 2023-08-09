@@ -1,5 +1,6 @@
 const Chat = require('../models/Chats')
 const Message = require('../models/Messages')
+const сontroller = require('../socketInit')
 
 module.exports.getChats = async (req, res, next) => {
     try {
@@ -21,3 +22,27 @@ module.exports.getChats = async (req, res, next) => {
         next(e)
     }
 }
+module.exports.getOneChat = async (req, res, next) => {
+    const { chatId } = req.params
+    try {
+        const messages = await Message.find({ chatId: chatId })
+            .sort({ createdAt: 1 })
+        res.status(200).send(messages)
+    } catch (e) {
+        next(e)
+    }
+}
+module.exports.sendMessage = async (req, res, next) => {
+    const { chatId, value, participant } = req.body
+    try {
+        const newMessage = await Message.create({
+            sender: req.tokenData._id,
+            body: value,
+            chatId: chatId
+        })
+        сontroller.getChatController().emitNewMessage(participant, newMessage)
+        res.status(200).send(newMessage)
+    } catch (e) {
+        next(e)
+    }
+}   

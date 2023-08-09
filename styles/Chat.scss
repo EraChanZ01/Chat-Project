@@ -51,7 +51,7 @@
                 width: 100%;
                 background-color: rgb(132, 112, 173);
 
-                img{
+                img {
                     border-radius: 100%;
                 }
             }
@@ -106,6 +106,39 @@
             width: 100%;
             background-color: rgba(170, 149, 226, 0.877);
             border-radius: 0px 10px 10px 0px;
+
+            .output-message {
+                width: 100%;
+                height: 88%;
+                list-style-type: none;
+                box-sizing: border-box;
+                padding: 20px 50px;
+                margin: 0;
+
+                li {
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin: 5px 0px;
+                }
+            }
+
+            .input-message-div {
+                height: 12%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+
+
+                input {
+                    height: 40px;
+                    width: 500px;
+                    border-radius: 8px;
+                    border: none;
+                    background-color: rgba(198, 177, 252, 0.74);
+                }
+            }
         }
     }
 }

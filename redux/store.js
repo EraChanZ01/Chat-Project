@@ -6,6 +6,6 @@ const store = configureStore({
     reducer: rootReducer,
 });
 
-initSocket()
+initSocket(store)
 
 export default store;

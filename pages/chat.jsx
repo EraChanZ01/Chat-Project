@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from "react"
-import Contact from "../components/contact"
-import BlockClientSettings from '../components/blockClientSettings'
+import Contact from "../components/ChatComponents/contact"
+import BlockClientSettings from '../components/ChatComponents/blockClientSettings'
+import BlockMessages from '../components/ChatComponents/blockMessages'
 import { chatController } from './api/ws/socketInit';
 import { useRouter } from 'next/router';
 import { connect } from "react-redux"
@@ -13,16 +14,6 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
     const router = useRouter();
     const [regex, setRegex] = useState('')
 
-    /*const socketInitializer = async (id) => {
-        await fetch('/api/socket')
-        socket = io()
-
-        socket.on('connect', () => {
-            socket.emit('socketSubscribe', id)
-        })
-    }*/
-
-
     useEffect(() => {
         checkAuth().then(({ payload, meta }) => {
             if (meta.requestStatus === 'fulfilled') {
@@ -33,7 +24,8 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
             }
         })
         return () => {
-            //socket?.emit('socketUnsubscribe', data._id)
+            console.log(data)
+            chatController.unsubscribeChat(data._id)
         }
     }, [])
 
@@ -63,14 +55,19 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
                     </div>
                     <div className="box-contact">
                         {
-                            chatsView?.map((user, index) => <Contact key={index} name={user.interlocutors.phoneNumber} picture={user.picture ? user.picture.large : "/images/png-user.png"} lastMessage={user.lastMessage?.body} />)
+                            chatsView?.map((chat, index) => {
+                                return (
+                                    <Contact key={index} name={chat.interlocutors.phoneNumber}
+                                        picture={chat.picture ? chat.picture.large : "/images/png-user.png"}
+                                        lastMessage={chat.lastMessage?.body} id={chat._id}
+                                        interlocutorId={chat.interlocutors._id} />
+                                )
+                            })
                         }
                     </div>
                     <BlockClientSettings />
                 </div>
-                <div className="chat">
-
-                </div>
+                <BlockMessages />
             </div>
         </div>
     )

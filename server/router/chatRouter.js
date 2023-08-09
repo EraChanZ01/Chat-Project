@@ -4,6 +4,10 @@ const createSession = require('../middlewares/createSession')
 
 const chatRouter = express.Router()
 
-chatRouter.use('/', createSession.verefyToken, chatController.getChats)
+chatRouter.use(createSession.verefyToken)
+
+chatRouter.get('/', chatController.getChats)
+chatRouter.get('/:chatId', chatController.getOneChat)
+chatRouter.post('/sendMessage', chatController.sendMessage)
 
 module.exports = chatRouter

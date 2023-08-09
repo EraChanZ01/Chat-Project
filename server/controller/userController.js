@@ -53,7 +53,6 @@ module.exports.addFriend = async (req, res, next) => {
         )
         const chat = await Chat.create({ participants: [user._id, friend._id] })
         res.status(200).send(friend)
-
     } catch (e) {
         next(e)
     }

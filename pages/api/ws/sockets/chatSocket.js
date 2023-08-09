@@ -1,17 +1,19 @@
 import WebSocket from "./webSocket";
 
 class ChatSocket extends WebSocket {
-    constructor() {
-        super();
+    constructor(dispatch, getState) {
+        super(dispatch, getState);
     }
 
     anotherSubscribes = () => {
+        console.log(123)
         this.onNewMessage();
     };
 
     onNewMessage = () => {
+        console.log(123321)
         this.socket.on('newMessage', data => {
-            console.log(data)
+            this.dispatch(addMessage(data.message))
         });
     };
 

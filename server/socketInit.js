@@ -8,3 +8,7 @@ module.exports.createConnection = (httpServer) => {
     chatController = new ChatController()
     chatController.connect('api/socket', io)
 }
+
+module.exports.getChatController = () => {
+    return chatController;
+  };
