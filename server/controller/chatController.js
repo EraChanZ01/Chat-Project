@@ -27,6 +27,10 @@ module.exports.getOneChat = async (req, res, next) => {
     try {
         const messages = await Message.find({ chatId: chatId })
             .sort({ createdAt: 1 })
+            .populate({
+                path: 'sender',
+                select: ['-password', '-friends']
+            })
         res.status(200).send(messages)
     } catch (e) {
         next(e)

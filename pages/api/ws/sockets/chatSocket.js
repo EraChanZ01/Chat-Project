@@ -6,12 +6,10 @@ class ChatSocket extends WebSocket {
     }
 
     anotherSubscribes = () => {
-        console.log(123)
         this.onNewMessage();
     };
 
     onNewMessage = () => {
-        console.log(123321)
         this.socket.on('newMessage', data => {
             this.dispatch(addMessage(data.message))
         });

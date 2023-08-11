@@ -12,6 +12,7 @@ const initialState = {
     currentChat: null,
     participant: null
 }
+
 const reducers = {
     addContact: (state, action) => {
         state.contactList = [...state.contactList, action]

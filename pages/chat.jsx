@@ -17,17 +17,20 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
     useEffect(() => {
         checkAuth().then(({ payload, meta }) => {
             if (meta.requestStatus === 'fulfilled') {
-                chatController.subscribeChat(payload.data._id)
                 getChats()
             } else {
                 router.push('/')
             }
         })
+    }, [])
+
+    useEffect(() => {
+        chatController.subscribeChat(data?._id)
         return () => {
             console.log(data)
-            chatController.unsubscribeChat(data._id)
+            chatController.unsubscribeChat(data?._id)
         }
-    }, [])
+    }, [data])
 
     useEffect(() => {
         if (regex.length > 5) {
@@ -50,7 +53,7 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
                     <div className="box-filter">
                         <input onChange={handleChange} />
                         <div onClick={handleClick}>
-                            <Image src={"/images/add-user.svg"} width={30} height={25} alt="button add friend" />
+                            <Image src={"/images/add-user.svg"} width={30} height={22} alt="button add friend" />
                         </div>
                     </div>
                     <div className="box-contact">

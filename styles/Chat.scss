@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Oswald-VariableFont";
+    src: url("/fonts/Oswald-VariableFont.ttf");
+}
+
 .Chat-page {
     display: flex;
     justify-content: center;
@@ -6,6 +11,7 @@
     background-image: url('/images/fon2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: Oswald-VariableFont;
 
     .Frame {
         box-sizing: border-box;
@@ -16,6 +22,18 @@
         background-color: rgb(130, 110, 173);
         border-radius: 30px;
 
+        @media screen and (max-width: 920px) {
+            width: 95%;
+            height: 95%;
+            padding: 40px 30px;
+        }
+
+        @media screen and (max-width: 420px) {
+            width: 95%;
+            height: 98%;
+            padding: 20px 20px;
+        }
+
         .Contact-frame {
             position: relative;
             box-sizing: border-box;
@@ -23,6 +41,26 @@
             height: 100%;
             border-radius: 10px 0px 0px 10px;
             background-color: rgba(183, 165, 233, 0.877);
+
+            @media screen and (max-width: 1700px) {
+                width: 20%;
+            }
+
+            @media screen and (max-width: 1550px) {
+                width: 25%;
+            }
+
+            @media screen and (max-width: 900px) {
+                width: 30%;
+            }
+
+            @media screen and (max-width: 760px) {
+                width: 33%;
+            }
+
+            @media screen and (max-width: 700px) {
+                width: 45%;
+            }
 
             .box-filter {
                 height: 10%;
@@ -36,6 +74,21 @@
                     background-color: rgb(212, 191, 255);
                     border: none;
                     height: 20px;
+
+                    @media screen and (max-width: 1700px) {
+                        width: 130px;
+                    }
+
+                    @media screen and (max-width: 700px) {
+                        width: 60%;
+                    }
+                }
+
+                img {
+                    @media screen and (max-width: 700px) {
+                        width: 20px;
+                        height: 22px;
+                    }
                 }
             }
 
@@ -63,10 +116,25 @@
                 overflow: auto;
                 box-sizing: border-box;
 
+
                 .Contact {
                     display: flex;
                     height: 50px;
                     margin-bottom: 12px;
+
+                    @media screen and (max-width: 700px) {
+                        img {
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
+
+                    @media screen and (max-width: 400px) {
+                        img {
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
 
                     .Contact-info {
                         width: 100%;
@@ -77,10 +145,19 @@
                         font-size: 19px;
                         font-weight: 700;
 
+                        @media screen and (max-width: 700px) {
+                            font-size: 14px;
+                            justify-content: start
+                        }
+
                         .lastMessage {
                             margin: 5px 0px 0px 0px;
                             font-size: 15px;
                             color: rgb(97, 97, 97);
+
+                            @media screen and (max-width: 700px) {
+                                font-size: 12px;
+                            }
                         }
                     }
                 }
@@ -114,12 +191,51 @@
                 box-sizing: border-box;
                 padding: 20px 50px;
                 margin: 0;
+                overflow: auto;
+
+                @media screen and (max-width: 700px) {
+                    padding: 20px 20px;
+                }
+
+                @media screen and (max-width: 600px) {
+                    padding: 20px 10px;
+                }
+
+                .message-user {
+                    position: relative;
+                    display: flex;
+                    margin: 8px 13px 0px 13px;
+                    height: 30px;
+
+                    @media screen and (max-width: 700px) {
+                        height: 20px;
+                    }
+                }
+
+                .message {
+                    display: flex;
+                    margin: 5px 13px;
+                    height: auto;
+                }
+
+                img {
+                    position: absolute;
+
+                    @media screen and (max-width: 700px) {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
 
                 li {
+                    display: inline-flex;
                     font-size: 16px;
                     font-weight: 600;
-                    margin: 5px 0px;
+                    margin: 0px 0px 0px 40px;
+                    align-items: flex-end;
                 }
+
+
             }
 
             .input-message-div {
@@ -137,6 +253,23 @@
                     border-radius: 8px;
                     border: none;
                     background-color: rgba(198, 177, 252, 0.74);
+
+                    @media screen and (max-width: 950px) {
+                        width: 300px;
+                    }
+
+                    @media screen and (max-width: 630px) {
+                        width: 250px;
+                    }
+
+                    @media screen and (max-width: 515px) {
+                        width: 200px;
+                        height: 30px;
+                    }
+
+                    @media screen and (max-width: 470px) {
+                        width: 80%;
+                    }
                 }
             }
         }
