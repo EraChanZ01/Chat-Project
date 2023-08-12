@@ -6,7 +6,7 @@ let chatController;
 module.exports.createConnection = (httpServer) => {
     const io = new Server(httpServer, { cors: { origin: '*', } });
     chatController = new ChatController()
-    chatController.connect('api/socket', io)
+    chatController.connect('api/socket/chat', io)
 }
 
 module.exports.getChatController = () => {

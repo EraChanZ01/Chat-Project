@@ -14,10 +14,10 @@ class WebSocket {
         })
     }
 
-    anotherSubscribes (socket) {
+    anotherSubscribes(socket) {
 
     }
-    
+
     onSubscribe(socket) {
         socket.on("subscribe", (id) => {
             socket.join(id);

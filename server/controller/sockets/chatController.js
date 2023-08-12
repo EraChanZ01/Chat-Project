@@ -20,7 +20,6 @@ class ChatController extends WebSocket {
     }
 
     emitNewMessage(target, message) {
-        console.log(message,"server")
         this.io.to(parseInt(target)).emit('newMessage', { message })
     }
 

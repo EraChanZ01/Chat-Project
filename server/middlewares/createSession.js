@@ -11,7 +11,7 @@ module.exports.checkAuth = async (req, res, next) => {
         const userFind = await User.findOne({ _id: req.tokenData._id })
         res.status(200).send({ data: userFind })
     } catch (e) {
-        next('token error')
+        next({ code: 400, message: 'token error' })
     }
 }
 
@@ -24,7 +24,7 @@ module.exports.verefyToken = async (req, res, next) => {
         req.tokenData = await jwt.verify(accessToken, config.token.SECRET)
         next()
     } catch (e) {
-        next('token error')
+        next({ code: 400, message: 'token error' })
     }
 }
 

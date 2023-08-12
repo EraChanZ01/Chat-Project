@@ -11,7 +11,7 @@ module.exports.register = async (req, res, next) => {
         const token = await createdToken(user)
         return res.status(201).send({ data: user, token })
     } catch (e) {
-        next(e)
+        next({ code: 500, message: 'Error register' })
     }
 }
 module.exports.login = async (req, res, next) => {
@@ -24,7 +24,7 @@ module.exports.login = async (req, res, next) => {
             res.status(200).send({ data: user, token })
         }
     } catch (e) {
-        next(e)
+        next({ code: 500, message: 'Error login' })
     }
 }
 module.exports.getAllUser = async (req, res, next) => {

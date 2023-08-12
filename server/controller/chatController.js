@@ -19,7 +19,7 @@ module.exports.getChats = async (req, res, next) => {
         }
         res.status(200).send(resData)
     } catch (e) {
-        next(e)
+        next({ code: 500, message: 'Error receiving chats' })
     }
 }
 module.exports.getOneChat = async (req, res, next) => {
@@ -33,7 +33,7 @@ module.exports.getOneChat = async (req, res, next) => {
             })
         res.status(200).send(messages)
     } catch (e) {
-        next(e)
+        next({ code: 500, message: 'Error receiving message' })
     }
 }
 module.exports.sendMessage = async (req, res, next) => {
@@ -47,6 +47,6 @@ module.exports.sendMessage = async (req, res, next) => {
         сontroller.getChatController().emitNewMessage(participant, newMessage)
         res.status(200).send(newMessage)
     } catch (e) {
-        next(e)
+        next({ code: 500, message: 'Failed to send message' })
     }
 }   

@@ -10,7 +10,7 @@ module.exports = {
   webpack: (config, options) => {
     config.module.rules.push(
       {
-        test: /\.m?jsx$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",

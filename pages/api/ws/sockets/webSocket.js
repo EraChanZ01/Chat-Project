@@ -5,14 +5,19 @@ class WebSocket {
     constructor(dispatch, getState) {
         this.dispatch = dispatch;
         this.getState = getState;
-        this.socket = io(`${config.baseURL}/socket`, {
-            origins: 'localhost:*',
+        this.socket = io(`${config.baseURL}/socket/chat`, {
+            cors: {
+                origin: "*"
+            }
         })
         this.listen();
     }
     listen = () => {
+        this.socket.on('error', (error) => {
+            console.error('Socket error:', error);
+        });
         this.socket.on('connect', () => {
-            console.log('socket connected')
+            console.log('Client socket connected')
             this.anotherSubscribes()
         })
     }

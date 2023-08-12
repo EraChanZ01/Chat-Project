@@ -1,6 +1,6 @@
 const config = {
     mongo: {
-        dbName: process.env.DB_NAME || 'practicChat'
+        dbName: 'practicChat'
     },
     token: {
         SALT_ROUNDS: 10,

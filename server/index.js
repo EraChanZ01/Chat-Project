@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const config = require('../config');
 const router = require('./router/router');
 const socketInit = require('./socketInit');
+const handlerError = require('./Errors/handler')
+require('dotenv').config()
+
 const PORT = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
@@ -37,6 +40,7 @@ nextApp.prepare().then(() => {
         return handle(req, res);
     });
     startDataBase()
+    app.use(handlerError);
 
 
 
