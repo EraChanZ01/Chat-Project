@@ -1,4 +1,5 @@
 import WebSocket from "./webSocket";
+import { addMessage } from "../../../../redux/slice/contactSlice";
 
 class ChatSocket extends WebSocket {
     constructor(dispatch, getState) {
@@ -10,7 +11,6 @@ class ChatSocket extends WebSocket {
     };
 
     onNewMessage = () => {
-        console.log("onNewMessage")
         this.socket.on('newMessage', data => {
             this.dispatch(addMessage(data.message))
         });

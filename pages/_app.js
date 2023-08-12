@@ -8,9 +8,11 @@ import "../styles/Chat.scss"
 
 const App = ({ Component, pageProps }) => {
     return (
-        <Provider store={store}>
-            <Component {...pageProps} />
-        </Provider>
+        <>
+            <Provider store={store}>
+                <Component {...pageProps} />
+            </Provider>
+        </>
     )
 }
 
