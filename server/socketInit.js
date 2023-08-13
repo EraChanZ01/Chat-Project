@@ -11,4 +11,4 @@ module.exports.createConnection = (httpServer) => {
 
 module.exports.getChatController = () => {
     return chatController;
-  };
+};

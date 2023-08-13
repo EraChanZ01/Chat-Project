@@ -25,9 +25,11 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
     }, [])
 
     useEffect(() => {
-        chatController.subscribeChat(data?._id)
-        return () => {
-            chatController.unsubscribeChat(data?._id)
+        if (data) {
+            chatController.subscribeChat(data._id)
+            return () => {
+                chatController.unsubscribeChat(data._id)
+            }
         }
     }, [data])
 

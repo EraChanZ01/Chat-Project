@@ -1,4 +1,5 @@
 const WebSocket = require('./webSocket');
+const CONSTANTS = require('../../../constants')
 
 class ChatController extends WebSocket {
 
@@ -8,19 +9,19 @@ class ChatController extends WebSocket {
     }
 
     onSubscribeChat(socket) {
-        socket.on('subscribeChat', (id) => {
+        socket.on(CONSTANTS.SOCKET_SUBSCRIBE_CHAT, (id) => {
             socket.join(parseInt(id));
         });
     }
 
     onUnsubscribeChat(socket) {
-        socket.on('unsubscribeChat', (id) => {
+        socket.on(CONSTANTS.SOCKET_UNSUBSCRIBE_CHAT, (id) => {
             socket.join(parseInt(id));
         });
     }
 
     emitNewMessage(target, message) {
-        this.io.to(parseInt(target)).emit('newMessage', { message })
+        this.io.to(parseInt(target)).emit(CONSTANTS.NEW_MESSAGE, { message })
     }
 
 }

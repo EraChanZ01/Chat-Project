@@ -15,6 +15,7 @@ module.exports.getChats = async (req, res, next) => {
                 (participant) => participant.phoneNumber !== req.tokenData.phoneNumber
             )
             const message = await Message.findOne({ chatId: chats[i]._id })
+                .sort({ createdAt: -1 })
             resData.push({ ...chats[i]._doc, lastMessage: message, interlocutors: sender })
         }
         res.status(200).send(resData)
@@ -44,8 +45,13 @@ module.exports.sendMessage = async (req, res, next) => {
             body: value,
             chatId: chatId
         })
-        сontroller.getChatController().emitNewMessage(participant, newMessage)
-        res.status(200).send(newMessage)
+        const message = await Message.findOne({ _id: newMessage._id })
+            .populate({
+                path: 'sender',
+                select: ['-password', '-friends']
+            })
+        сontroller.getChatController().emitNewMessage(participant, message)
+        res.status(200).send(message)
     } catch (e) {
         next({ code: 500, message: 'Failed to send message' })
     }

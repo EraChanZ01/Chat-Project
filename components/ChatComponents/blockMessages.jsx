@@ -16,9 +16,8 @@ const BlockMessages = ({ sendMessage, messageList, currentChat, participant }) =
     messageList.map((mes, index) => {
         let image = null
         let classN = "message"
-
         if (index === 0 || mes.sender._id !== messageList[index - 1].sender._id) {
-            image = <Image src={mes.sender.image ? `/images/${mes.sender.image}` : "/images/png-user.png"} width={30} height={30} />
+            image = <Image src={mes.sender.image ? `/images/${mes.sender.image}` : "/images/png-user.png"} width={30} height={30} alt="image sender" />
             classN = "message-user"
         }
 

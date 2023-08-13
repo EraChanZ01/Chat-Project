@@ -5,8 +5,7 @@ class WebSocket {
     constructor(dispatch, getState) {
         this.dispatch = dispatch;
         this.getState = getState;
-        console.log()
-        this.socket = io(process.env.NODE_ENV === 'production' ? process.env.URL_SOCKET_PRODUCT : process.env.URL_SOCKET_DEV, {
+        this.socket = io(`${config.baseURL}/socket`, {
             origins: '*',
         })
         this.listen();
