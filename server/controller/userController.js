@@ -14,6 +14,7 @@ module.exports.register = async (req, res, next) => {
         next({ code: 500, message: 'Error register' })
     }
 }
+
 module.exports.login = async (req, res, next) => {
     try {
         const { phoneNumber, password } = req.body
@@ -27,7 +28,8 @@ module.exports.login = async (req, res, next) => {
         next({ code: 500, message: 'Error login' })
     }
 }
-module.exports.getAllUser = async (req, res, next) => {
+
+/*module.exports.getAllUser = async (req, res, next) => {
     try {
         const { startNumber } = req.params
         const regex = new RegExp(`^${startNumber}`);
@@ -37,23 +39,5 @@ module.exports.getAllUser = async (req, res, next) => {
     } catch (e) {
         next(e)
     }
-}
+}*/
 
-module.exports.addFriend = async (req, res, next) => {
-    try {
-        const { addNumber, userNumber } = req.body
-        const user = await User.findOne({ phoneNumber: userNumber }).select('-password')
-        const friend = await User.findOne({ phoneNumber: addNumber }).select('-password')
-        if (!friend) {
-            return
-        }
-        await User.updateOne(
-            { _id: user._id },
-            { $push: { friends: friend._id } }
-        )
-        const chat = await Chat.create({ participants: [user._id, friend._id] })
-        res.status(200).send(friend)
-    } catch (e) {
-        next(e)
-    }
-}

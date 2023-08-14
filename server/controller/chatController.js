@@ -1,5 +1,6 @@
 const Chat = require('../models/Chats')
 const Message = require('../models/Messages')
+const User = require('../models/Users')
 const сontroller = require('../socketInit')
 
 module.exports.getChats = async (req, res, next) => {
@@ -14,8 +15,11 @@ module.exports.getChats = async (req, res, next) => {
             const sender = chats[i].participants.find(
                 (participant) => participant.phoneNumber !== req.tokenData.phoneNumber
             )
-            const message = await Message.findOne({ chatId: chats[i]._id })
-                .sort({ createdAt: -1 })
+            const message = await Message.aggregate([
+                { $match: { chatId: chats[i]._id } },
+                { $sort: { createdAt: -1 } },
+                { $limit: 1 }
+            ])
             resData.push({ ...chats[i]._doc, lastMessage: message, interlocutors: sender })
         }
         res.status(200).send(resData)
@@ -55,4 +59,28 @@ module.exports.sendMessage = async (req, res, next) => {
     } catch (e) {
         next({ code: 500, message: 'Failed to send message' })
     }
-}   
+}
+module.exports.addFriend = async (req, res, next) => {
+    try {
+        const { addNumber, userNumber } = req.body
+        const user = await User.findOne({ phoneNumber: userNumber }).select(['-password', '-friends'])
+        const friend = await User.findOne({ phoneNumber: addNumber }).select(['-password', '-friends'])
+        if (!friend) {
+            return
+        }
+        await User.updateOne(
+            { _id: user._id },
+            { $push: { friends: friend._id } }
+        )
+        const chat = await Chat.create({ participants: [user._id, friend._id] })
+        const chatData = {
+            lastMessage: {},
+            interlocutors: friend,
+            _id: chat._id,
+            participants: [friend, user]
+        }
+        res.status(200).send(chatData)
+    } catch (e) {
+        next(e)
+    }
+}

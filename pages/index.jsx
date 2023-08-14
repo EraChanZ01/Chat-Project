@@ -22,7 +22,11 @@ const Home = ({ checkAuth, registerUser, loginUser, data }) => {
     const handleClick = () => {
         if (modal) {
             if (user.repeatPassword === user.password) {
-                registerUser(user)
+                registerUser(user).then((data) => {
+                    if (data.meta.requestStatus === 'fulfilled') {
+                        router.push('/chat')
+                    }
+                })
             } else {
 
             }

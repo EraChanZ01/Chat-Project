@@ -23,6 +23,8 @@ const reducers = {
     },
     addMessage: (state, { payload }) => {
         state.messageList = [...state.messageList, payload]
+        const index = state.chatsView.findIndex(el._id === payload.chatId)
+        state.chatsView[index].lastMessage = payload
     }
 }
 
@@ -97,8 +99,16 @@ const extraReducers = (builder) => {
     builder.addCase(getAllUser.fulfilled, (state, { payload }) => {
         state.contactList = [...state.contactList, ...payload]
     })
+    builder.addCase(addFriend.pending, (state, { payload }) => {
+        state.isLoading = true
+    })
     builder.addCase(addFriend.fulfilled, (state, { payload }) => {
-        state.contactList = [...state.contactList, payload]
+        state.isLoading = false
+        state.chatsView = [...state.chatsView, payload]
+    })
+    builder.addCase(addFriend.rejected, (state, { payload }) => {
+        state.isLoading = false
+        state.error = payload
     })
     builder.addCase(getChats.fulfilled, (state, { payload }) => {
         state.chatsView = payload
@@ -110,8 +120,19 @@ const extraReducers = (builder) => {
         state.messageList = payload
         state.isLoading = false
     })
-    builder.addCase(sendMessage.fulfilled, (state, { payload }) => {
+    builder.addCase(getOneChat.rejected, (state, { payload }) => {
         state.isLoading = false
+        state.error = payload
+    })
+    builder.addCase(sendMessage.pending, (state) => {
+        state.isLoading = true
+    })
+    builder.addCase(sendMessage.fulfilled, (state) => {
+        state.isLoading = false
+    })
+    builder.addCase(sendMessage.rejected, (state, { payload }) => {
+        state.isLoading = false
+        state.error = payload
     })
 }
 
