@@ -20,7 +20,7 @@ module.exports.getChats = async (req, res, next) => {
                 { $sort: { createdAt: -1 } },
                 { $limit: 1 }
             ])
-            resData.push({ ...chats[i]._doc, lastMessage: message, interlocutors: sender })
+            resData.push({ ...chats[i]._doc, lastMessage: message[0], interlocutors: sender })
         }
         res.status(200).send(resData)
     } catch (e) {

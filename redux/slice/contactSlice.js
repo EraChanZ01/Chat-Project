@@ -23,7 +23,7 @@ const reducers = {
     },
     addMessage: (state, { payload }) => {
         state.messageList = [...state.messageList, payload]
-        const index = state.chatsView.findIndex(el._id === payload.chatId)
+        const index = state.chatsView.findIndex((el) => el._id === payload.chatId)
         state.chatsView[index].lastMessage = payload
     }
 }

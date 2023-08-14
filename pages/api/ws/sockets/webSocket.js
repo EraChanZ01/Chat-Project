@@ -5,7 +5,7 @@ class WebSocket {
     constructor(dispatch, getState) {
         this.dispatch = dispatch;
         this.getState = getState;
-        this.socket = io(`${config.baseURL}/socket`, {
+        this.socket = io(`ws://localhost:3000/api/socket`, {
             origins: '*',
         })
         this.listen();
@@ -16,6 +16,5 @@ class WebSocket {
             this.anotherSubscribes()
         })
     }
-
 }
 export default WebSocket
