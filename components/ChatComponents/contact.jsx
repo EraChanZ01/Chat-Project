@@ -9,7 +9,7 @@ const Contact = ({ name, picture, lastMessage, id, getOneChat, interlocutorId })
     }
     return (
         <div className="Contact" onClick={handleClick}>
-            <Image src={picture} width={50} height={50} style={{ borderRadius: "100%" }} alt="Your Contact" />
+            <Image src={picture} width={45} height={45} style={{ borderRadius: "100%" }} alt="Your Contact" />
             <div className="Contact-info">
                 <span>{name}</span>
                 <p className="lastMessage">{lastMessage}</p>

@@ -3,11 +3,11 @@ import Image from 'next/image'
 import { connect } from "react-redux";
 import { sendMessage } from '../../redux/slice/contactSlice'
 
-const BlockMessages = ({ sendMessage, messageList, currentChat, participant }) => {
+const BlockMessages = ({ sendMessage, messageList, currentChat, currentParticipant }) => {
 
     function handleKeyUp(event) {
         if (event.keyCode === 13) {
-            sendMessage({ value: event.target.value, chatId: currentChat, participant })
+            sendMessage({ value: event.target.value, chatId: currentChat, participant: currentParticipant._id })
             event.target.value = ''
         }
     }
@@ -17,10 +17,9 @@ const BlockMessages = ({ sendMessage, messageList, currentChat, participant }) =
         let image = null
         let classN = "message"
         if (index === 0 || mes.sender._id !== messageList[index - 1].sender._id) {
-            image = <Image src={mes.sender.image ? `/images/${mes.sender.image}` : "/images/png-user.png"} width={30} height={30} alt="image sender" />
+            image = <Image src={mes.sender.image} width={40} height={40} alt="image sender" />
             classN = "message-user"
         }
-
         messages.push(
             <div key={index} className={classN}>
                 {image}
@@ -33,6 +32,16 @@ const BlockMessages = ({ sendMessage, messageList, currentChat, participant }) =
 
     return (
         <div className="chat">
+            <header className="header-chat">
+                {
+                    currentParticipant && (
+                        <>
+                            <Image src={currentParticipant.image} width={35} height={35} alt="image sender" />
+                            <p>{currentParticipant.name ? currentParticipant.name : currentParticipant.phoneNumber}</p>
+                        </>
+                    )
+                }
+            </header>
             <ul className="output-message">
                 {messages}
             </ul>
@@ -42,7 +51,7 @@ const BlockMessages = ({ sendMessage, messageList, currentChat, participant }) =
         </div>
     )
 }
-
+// 
 const mapDispatchToProps = (dispatch) => ({
     sendMessage: (data) => dispatch(sendMessage(data))
 })

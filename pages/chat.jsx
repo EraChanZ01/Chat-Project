@@ -2,15 +2,16 @@ import React, { useEffect, useState, useLayoutEffect } from "react"
 import Contact from "../components/ChatComponents/contact"
 import BlockClientSettings from '../components/ChatComponents/blockClientSettings'
 import BlockMessages from '../components/ChatComponents/blockMessages'
+import BoxFilter from '../components/ChatComponents/boxFilter'
 import { chatController } from './api/ws/socketInit';
 import { useRouter } from 'next/router';
 import { connect } from "react-redux"
 import { checkAuth } from "../redux/slice/userSlice"
-import { getAllUser, addFriend, getChats } from '../redux/slice/contactSlice'
+import { addFriend, getChats, filterChats } from '../redux/slice/contactSlice'
 import Image from "next/image"
 
 
-const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) => {
+const Chat = ({ checkAuth, filterChats, chatsView, addFriend, getChats, data }) => {
     const router = useRouter();
     const [regex, setRegex] = useState('')
 
@@ -34,35 +35,28 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
     }, [data])
 
     useEffect(() => {
-        if (regex.length > 5) {
-            getAllUser(regex)
-        }
+        filterChats(regex)
     }, [regex])
 
     const handleChange = ({ target }) => {
         setRegex(target.value)
     }
 
-    const handleClick = () => {
+    const handleClick = ({ target }) => {
         addFriend({ addNumber: regex, userNumber: data.phoneNumber })
+        target.value = ''
     }
-
     return (
         <div className="Chat-page">
             <div className="Frame">
                 <div className="Contact-frame">
-                    <div className="box-filter">
-                        <input onChange={handleChange} />
-                        <div onClick={handleClick}>
-                            <Image src={"/images/add-user.svg"} width={30} height={22} alt="button add friend" />
-                        </div>
-                    </div>
+                    <BoxFilter handleChange={handleChange} handleClick={handleClick} />
                     <div className="box-contact">
                         {
                             chatsView?.map((chat, index) => {
                                 return (
                                     <Contact key={index} name={chat.interlocutors.phoneNumber}
-                                        picture={chat.picture ? chat.picture.large : "/images/png-user.png"}
+                                        picture={chat.interlocutors.image}
                                         lastMessage={chat.lastMessage?.body} id={chat._id}
                                         interlocutorId={chat.interlocutors._id} />
                                 )
@@ -79,7 +73,7 @@ const Chat = ({ checkAuth, getAllUser, chatsView, addFriend, getChats, data }) =
 
 const mapDispatchToProps = (dispatch) => ({
     checkAuth: () => dispatch(checkAuth()),
-    getAllUser: (data) => dispatch(getAllUser(data)),
+    filterChats: (data) => dispatch(filterChats(data)),
     addFriend: (data) => dispatch(addFriend(data)),
     getChats: () => dispatch(getChats())
 })

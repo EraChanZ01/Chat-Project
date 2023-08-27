@@ -29,15 +29,4 @@ module.exports.login = async (req, res, next) => {
     }
 }
 
-/*module.exports.getAllUser = async (req, res, next) => {
-    try {
-        const { startNumber } = req.params
-        const regex = new RegExp(`^${startNumber}`);
-        const user = await User.findOne({ phoneNumber: "0660731775" })
-        const users = await User.find({ _id: { $in: user.friends }, phoneNumber: { $regex: regex } })
-        res.status(200).send(users)
-    } catch (e) {
-        next(e)
-    }
-}*/
 

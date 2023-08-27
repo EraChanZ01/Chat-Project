@@ -5,10 +5,11 @@ import Image from 'next/image'
 const BlockClientSettings = ({ data }) => {
     return (
         <div className="box-setting">
-            <Image src={data?.image ? `/images/${data.image}` : "/images/png-user.png"}
-                width={28} height={28} alt="Your image" />
+            <Image src={data?.image}
+                width={45} height={45} alt="Your image" />
             <div className="short-info">
-                <p>{data?.name}</p>
+                <p>{data?.name? data?.name : data?.phoneNumber}</p>
+                <Image src={'images/icons8.svg'} width={28} height={28} alt="settings" />
             </div>
         </div>
     )

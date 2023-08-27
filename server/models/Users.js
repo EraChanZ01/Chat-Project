@@ -14,6 +14,7 @@ const userSchema = new Schema({
     },
     image: {
         type: String,
+        default: "/images/png-user.png"
     },
     friends: [{
         type: Schema.Types.ObjectId, ref: 'User'
