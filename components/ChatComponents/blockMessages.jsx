@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Image from 'next/image'
 import { connect } from "react-redux";
-import { sendMessage } from '../../redux/slice/contactSlice'
+import { sendMessage, updateStatusMassage } from '../../redux/slice/contactSlice'
 
-const BlockMessages = ({ sendMessage, messageList, currentChat, currentParticipant }) => {
+const BlockMessages = ({ sendMessage, updateStatusMassage, messageList, currentChat, currentParticipant }) => {
+
+    useEffect(() => {
+        if (currentParticipant && currentChat) {
+            updateStatusMassage({ chatId: currentChat, participantId: currentParticipant._id })
+        }
+    }, [currentParticipant, currentChat])
 
     function handleKeyUp(event) {
         if (event.keyCode === 13) {
@@ -53,7 +59,8 @@ const BlockMessages = ({ sendMessage, messageList, currentChat, currentParticipa
 }
 // 
 const mapDispatchToProps = (dispatch) => ({
-    sendMessage: (data) => dispatch(sendMessage(data))
+    sendMessage: (data) => dispatch(sendMessage(data)),
+    updateStatusMassage: (data) => dispatch(updateStatusMassage(data))
 })
 
 const mapStateToProps = (state) => {

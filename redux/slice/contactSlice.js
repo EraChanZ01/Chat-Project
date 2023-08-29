@@ -86,8 +86,40 @@ export const sendMessage = createAsyncThunk(
     }
 )
 
+export const updateStatusMassage = createAsyncThunk(
+    `${SLICE_NAME}/updateStatusMassage`,
+    async (payload, { rejectWithValue }) => {
+        try {
+            const { data } = await restController.updateStatusMassage(payload)
+            return data
+        } catch (e) {
+            return rejectWithValue({
+                message: 'Failed to fetch'
+            })
+        }
+    }
+)
+
 const extraReducers = (builder) => {
-    builder.addCase(addFriend.pending, (state, { payload }) => {
+    builder.addCase(updateStatusMassage.pending, (state) => {
+        state.isLoading = true
+    })
+    builder.addCase(updateStatusMassage.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        if (payload) {
+            const index = state.chatsView.findIndex(el => el.interlocutors._id === payload.sender._id)
+            if (index !== -1) {
+                const newChatsView = [...state.chatsView]
+                newChatsView[index].lastMessage = payload
+                state.chatsView = [...newChatsView]
+            }
+        }
+    })
+    builder.addCase(updateStatusMassage.rejected, (state, { payload }) => {
+        state.isLoading = false
+        state.error = payload
+    })
+    builder.addCase(addFriend.pending, (state) => {
         state.isLoading = true
     })
     builder.addCase(addFriend.fulfilled, (state, { payload }) => {
@@ -135,5 +167,5 @@ const userSlice = createSlice({
 
 const { actions, reducer } = userSlice
 
-export const { addContact, setCurrentChat, addMessage,filterChats } = actions
+export const { addContact, setCurrentChat, addMessage, filterChats } = actions
 export default reducer

@@ -55,9 +55,9 @@ const Chat = ({ checkAuth, filterChats, chatsView, addFriend, getChats, data }) 
                         {
                             chatsView?.map((chat, index) => {
                                 return (
-                                    <Contact key={index} name={chat.interlocutors.phoneNumber}
+                                    <Contact key={index} name={chat.interlocutors.name ? chat.interlocutors.name : chat.interlocutors.phoneNumber}
                                         picture={chat.interlocutors.image}
-                                        lastMessage={chat.lastMessage?.body} id={chat._id}
+                                        lastMessage={chat.lastMessage} id={chat._id}
                                         interlocutorId={chat.interlocutors._id} />
                                 )
                             })

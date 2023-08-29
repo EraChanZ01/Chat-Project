@@ -7,7 +7,13 @@ const messageSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    body: String,
+    status: {
+        type: String,
+        required: true,
+    },
+    body: {
+        type: String
+    },
     chatId: {
         type: Schema.Types.ObjectId,
         required: true,

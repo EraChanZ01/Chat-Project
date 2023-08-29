@@ -9,11 +9,15 @@ const Contact = ({ name, picture, lastMessage, id, getOneChat, interlocutorId })
     }
     return (
         <div className="Contact" onClick={handleClick}>
-            <Image src={picture} width={45} height={45} style={{ borderRadius: "100%" }} alt="Your Contact" />
+            <Image src={picture} width={45} height={45} style={{ borderRadius: "100%" }} alt="Your Contact" priority={false} />
             <div className="Contact-info">
                 <span>{name}</span>
-                <p className="lastMessage">{lastMessage}</p>
+                <p className="lastMessage">{lastMessage?.body}</p>
             </div>
+            {
+                lastMessage?.status === 'new' && lastMessage?.sender._id === interlocutorId? <div className="notifi-mes"></div> : null
+            }
+
         </div>
     )
 }

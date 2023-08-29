@@ -11,5 +11,6 @@ chatRouter.get('/', chatController.getChats)
 chatRouter.get('/:chatId', chatController.getOneChat)
 chatRouter.post('/sendMessage', chatController.sendMessage)
 chatRouter.post('/addFriend', chatController.addFriend)
+chatRouter.put('/updateStatusMassage', chatController.updateStatusMassage)
 
 module.exports = chatRouter

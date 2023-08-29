@@ -3,6 +3,11 @@
     src: url("/fonts/Oswald-VariableFont.ttf");
 }
 
+@mixin contact-style{
+    
+}
+
+
 .Chat-page {
     display: flex;
     justify-content: center;
@@ -171,6 +176,13 @@
                             width: 20px;
                             height: 20px;
                         }
+                    }
+                    
+                    .notifi-mes{
+                        height: 15px;
+                        width: 18px;
+                        background-color: rgb(247, 237, 108);
+                        border-radius: 100%;
                     }
 
                     .Contact-info {

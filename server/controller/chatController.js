@@ -55,6 +55,7 @@ module.exports.sendMessage = async (req, res, next) => {
     try {
         const newMessage = await Message.create({
             sender: req.tokenData._id,
+            status: 'new',
             body: value,
             chatId: chatId
         })
@@ -92,6 +93,22 @@ module.exports.addFriend = async (req, res, next) => {
             participants: [friend, user]
         }
         res.status(200).send(chatData)
+    } catch (e) {
+        next(e)
+    }
+}
+module.exports.updateStatusMassage = async (req, res, next) => {
+    try {
+        const { chatId, participantId } = req.body
+
+        const updateMessages = await Message.updateMany({ chatId, sender: participantId }, { $set: { status: 'read' } })
+        const message = await Message.find({ chatId: chatId })
+        .sort({ createdAt: -1 })
+        .populate({
+            path: 'sender',
+            select: ['-password', '-friends']
+        })
+        res.status(200).send(message[0])
     } catch (e) {
         next(e)
     }
