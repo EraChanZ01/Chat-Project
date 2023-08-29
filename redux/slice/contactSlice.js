@@ -125,6 +125,7 @@ const extraReducers = (builder) => {
     builder.addCase(addFriend.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.chatsView = [...state.chatsView, payload]
+        state.chats = [...state.chats, payload]
     })
     builder.addCase(addFriend.rejected, (state, { payload }) => {
         state.isLoading = false
