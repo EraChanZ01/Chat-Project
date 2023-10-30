@@ -74,9 +74,10 @@ export const getOneChat = createAsyncThunk(
 )
 export const sendMessage = createAsyncThunk(
     `${SLICE_NAME}/sendMessage`,
-    async (payload, { rejectWithValue }) => {
+    async (payload, { rejectWithValue, dispatch }) => {
         try {
             const { data } = await restController.sendMessage(payload)
+            dispatch(addMessage(data))
             return data
         } catch (e) {
             return rejectWithValue({

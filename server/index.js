@@ -2,13 +2,14 @@ const http = require('http')
 const next = require('next');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const config = require('../config');
 const router = require('./router/router');
 const socketInit = require('./socketInit');
 const handlerError = require('./Errors/handler')
 require('dotenv').config();
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
 const handle = nextApp.getRequestHandler();
@@ -34,6 +35,7 @@ nextApp.prepare().then(() => {
     const app = express()
     const server = http.createServer(app)
 
+    app.use(cors())
     app.use(express.json())
     app.use('/api', router)
     app.get('*', (req, res) => {
