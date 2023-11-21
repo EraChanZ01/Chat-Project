@@ -20,7 +20,7 @@ const startDataBase = async () => {
     try {
         console.info('Initializing database ...');
         connectionString = connectToMongoDb(
-            `mongodb://127.0.0.1:27017/${config.mongo.dbName}`,
+            `mongodb://mongo-dev:27017/${config.mongo.dbName}`,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,

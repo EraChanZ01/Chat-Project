@@ -77,7 +77,6 @@ export const sendMessage = createAsyncThunk(
     async (payload, { rejectWithValue, dispatch }) => {
         try {
             const { data } = await restController.sendMessage(payload)
-            dispatch(addMessage(data))
             return data
         } catch (e) {
             return rejectWithValue({
